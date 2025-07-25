@@ -7,56 +7,47 @@
         * { 
             margin: 0; 
             padding: 0; 
-            touch-action: none;
         }
         body { 
             overflow: hidden; 
             background: #333; 
-            position: fixed;
-            width: 100%;
-            height: 100%;
-        }
-        canvas { 
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
         }
         .mobile-controls {
             position: fixed;
-            bottom: 20px;
+            bottom: 0;
             left: 0;
             right: 0;
-            display: none;
+            padding: 20px;
             z-index: 1000;
-        }
-        .mobile-controls button {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(0, 255, 180, 0.5);
-            border: none;
-            color: white;
-            font-size: 24px;
-            touch-action: none;
-            -webkit-user-select: none;
-            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
         }
         .left-controls {
-            position: fixed;
-            left: 20px;
-            bottom: 20px;
             display: flex;
             gap: 20px;
+            pointer-events: auto;
         }
         .right-controls {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
+            pointer-events: auto;
         }
-        @media (max-width: 800px) {
+        .control-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(0, 255, 180, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        @media (min-width: 801px) {
             .mobile-controls {
-                display: block;
+                display: none;
             }
         }
     </style>
@@ -64,13 +55,25 @@
 <body>
     <div class="mobile-controls">
         <div class="left-controls">
-            <button id="leftBtn">←</button>
-            <button id="rightBtn">→</button>
+            <button class="control-btn" id="leftBtn">←</button>
+            <button class="control-btn" id="rightBtn">→</button>
         </div>
         <div class="right-controls">
-            <button id="jumpBtn">↑</button>
+            <button class="control-btn" id="jumpBtn">↑</button>
         </div>
     </div>
+    <script>
+        // Debug mobile detection
+        function debugMobile() {
+            const isMobile = window.innerWidth <= 800;
+            console.log('Window width:', window.innerWidth);
+            console.log('Is mobile:', isMobile);
+            const controls = document.querySelector('.mobile-controls');
+            console.log('Controls display:', window.getComputedStyle(controls).display);
+        }
+        window.addEventListener('load', debugMobile);
+        window.addEventListener('resize', debugMobile);
+    </script>
     <script src="https://unpkg.com/kaboom@2000.2.10/dist/kaboom.js"></script>
     <script src="game.js"></script>
 </body>

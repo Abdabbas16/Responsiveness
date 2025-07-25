@@ -3,6 +3,7 @@ kaboom({
     width: 1200,
     height: 1000,
     background: [0, 0, 0],
+    touchToMouse: false, // Disable automatic touch handling
 })
 
 // Game state
@@ -18,42 +19,70 @@ let isTouchingRight = false
 
 // Setup mobile controls
 function setupMobileControls() {
-    const leftBtn = document.getElementById('leftBtn')
-    const rightBtn = document.getElementById('rightBtn')
-    const jumpBtn = document.getElementById('jumpBtn')
+    console.log('Setting up mobile controls');
+    
+    const leftBtn = document.getElementById('leftBtn');
+    const rightBtn = document.getElementById('rightBtn');
+    const jumpBtn = document.getElementById('jumpBtn');
+    
+    console.log('Buttons found:', { leftBtn, rightBtn, jumpBtn });
 
-    // Left button
-    leftBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault()
-        isTouchingLeft = true
-    })
-    leftBtn.addEventListener('touchend', (e) => {
-        e.preventDefault()
-        isTouchingLeft = false
-    })
+    if (leftBtn) {
+        ['touchstart', 'mousedown'].forEach(evt => {
+            leftBtn.addEventListener(evt, (e) => {
+                e.preventDefault();
+                isTouchingLeft = true;
+                console.log('Left button pressed');
+            });
+        });
 
-    // Right button
-    rightBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault()
-        isTouchingRight = true
-    })
-    rightBtn.addEventListener('touchend', (e) => {
-        e.preventDefault()
-        isTouchingRight = false
-    })
+        ['touchend', 'mouseup', 'mouseleave'].forEach(evt => {
+            leftBtn.addEventListener(evt, (e) => {
+                e.preventDefault();
+                isTouchingLeft = false;
+                console.log('Left button released');
+            });
+        });
+    }
 
-    // Jump button
-    jumpBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault()
-        if (player.isGrounded() || player.jumpCount < player.maxJumps) {
-            player.jump(JUMP_FORCE)
-            player.jumpCount++
-        }
-    })
+    if (rightBtn) {
+        ['touchstart', 'mousedown'].forEach(evt => {
+            rightBtn.addEventListener(evt, (e) => {
+                e.preventDefault();
+                isTouchingRight = true;
+                console.log('Right button pressed');
+            });
+        });
+
+        ['touchend', 'mouseup', 'mouseleave'].forEach(evt => {
+            rightBtn.addEventListener(evt, (e) => {
+                e.preventDefault();
+                isTouchingRight = false;
+                console.log('Right button released');
+            });
+        });
+    }
+
+    if (jumpBtn) {
+        ['touchstart', 'mousedown'].forEach(evt => {
+            jumpBtn.addEventListener(evt, (e) => {
+                e.preventDefault();
+                if (player.isGrounded() || player.jumpCount < player.maxJumps) {
+                    player.jump(JUMP_FORCE);
+                    player.jumpCount++;
+                    console.log('Jump button pressed');
+                }
+            });
+        });
+    }
 }
 
-// Call setup after DOM is loaded
-window.addEventListener('load', setupMobileControls)
+// Wait for DOM to be ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupMobileControls);
+} else {
+    setupMobileControls();
+}
 
 // Add player
 const player = add([
