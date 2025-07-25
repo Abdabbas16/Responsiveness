@@ -3,7 +3,6 @@ kaboom({
     width: 1200,
     height: 1000,
     background: [0, 0, 0],
-    touchToMouse: true,  // Enable touch controls
 })
 
 // Game state
@@ -15,14 +14,14 @@ const JUMP_FORCE = 800
 
 // Add player
 const player = add([
-    rect(40, 40),  // Player size
-    pos(120, height() - 88),  // Position just above ground platform
-    color(0, 255, 180),  // Teal color
+    rect(40, 40),
+    pos(120, height() - 88),
+    color(0, 255, 180),
     area(),
     body(),
     {
         jumpCount: 0,
-        maxJumps: 2,  // Allow double jump
+        maxJumps: 2,
     },
 ])
 
@@ -30,6 +29,7 @@ const player = add([
 const scoreLabel = add([
     text("Score: 0"),
     pos(16, 16),
+    fixed(),
 ])
 
 // Add platforms
