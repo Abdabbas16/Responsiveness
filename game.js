@@ -3,8 +3,33 @@ kaboom({
     width: 1200,
     height: 1000,
     background: [0, 0, 0],
-    touchToMouse: false, // Disable automatic touch handling
+    touchToMouse: false,
+    scale: 1,
+    stretch: true,
 })
+
+// Scale canvas for mobile
+function adjustCanvasScale() {
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+        const windowRatio = window.innerWidth / window.innerHeight;
+        const gameRatio = 1200 / 1000;
+        
+        if (windowRatio < gameRatio) {
+            // Window is taller than game ratio
+            canvas.style.width = '100vw';
+            canvas.style.height = 'auto';
+        } else {
+            // Window is wider than game ratio
+            canvas.style.width = 'auto';
+            canvas.style.height = '100vh';
+        }
+    }
+}
+
+// Apply scaling on load and resize
+window.addEventListener('load', adjustCanvasScale);
+window.addEventListener('resize', adjustCanvasScale);
 
 // Game state
 let score = 0
