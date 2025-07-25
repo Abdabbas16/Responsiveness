@@ -1,0 +1,16 @@
+{
+  "name": "platform-jumper",
+  "version": "1.0.0",
+  "description": "A platform jumping game with Kaboom.js",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server",
+    "deploy": "gh-pages -d ."
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
+} 
