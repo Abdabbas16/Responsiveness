@@ -12,6 +12,49 @@ let score = 0
 const SPEED = 300
 const JUMP_FORCE = 800
 
+// Mobile control states
+let isTouchingLeft = false
+let isTouchingRight = false
+
+// Setup mobile controls
+function setupMobileControls() {
+    const leftBtn = document.getElementById('leftBtn')
+    const rightBtn = document.getElementById('rightBtn')
+    const jumpBtn = document.getElementById('jumpBtn')
+
+    // Left button
+    leftBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault()
+        isTouchingLeft = true
+    })
+    leftBtn.addEventListener('touchend', (e) => {
+        e.preventDefault()
+        isTouchingLeft = false
+    })
+
+    // Right button
+    rightBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault()
+        isTouchingRight = true
+    })
+    rightBtn.addEventListener('touchend', (e) => {
+        e.preventDefault()
+        isTouchingRight = false
+    })
+
+    // Jump button
+    jumpBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault()
+        if (player.isGrounded() || player.jumpCount < player.maxJumps) {
+            player.jump(JUMP_FORCE)
+            player.jumpCount++
+        }
+    })
+}
+
+// Call setup after DOM is loaded
+window.addEventListener('load', setupMobileControls)
+
 // Add player
 const player = add([
     rect(40, 40),
@@ -222,9 +265,17 @@ player.onCollide("bouncer", () => {
     player.jump(JUMP_FORCE * 1.5)
 })
 
-// Keep player in bounds
-player.onUpdate(() => {
-    // Left and right bounds
+// Update movement controls to include touch
+onUpdate(() => {
+    // Handle keyboard and touch movement
+    if (keyIsDown("left") || isTouchingLeft) {
+        player.move(-SPEED, 0)
+    }
+    if (keyIsDown("right") || isTouchingRight) {
+        player.move(SPEED, 0)
+    }
+
+    // Keep player in bounds
     if (player.pos.x < 0) {
         player.pos.x = 0
     }

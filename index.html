@@ -2,12 +2,75 @@
 <html>
 <head>
     <title>Platform Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        * { margin: 0; padding: 0; }
-        body { overflow: hidden; background: #333; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            touch-action: none;
+        }
+        body { 
+            overflow: hidden; 
+            background: #333; 
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+        canvas { 
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .mobile-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: none;
+            z-index: 1000;
+        }
+        .mobile-controls button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 255, 180, 0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            touch-action: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .left-controls {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .right-controls {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+        }
+        @media (max-width: 800px) {
+            .mobile-controls {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="mobile-controls">
+        <div class="left-controls">
+            <button id="leftBtn">←</button>
+            <button id="rightBtn">→</button>
+        </div>
+        <div class="right-controls">
+            <button id="jumpBtn">↑</button>
+        </div>
+    </div>
     <script src="https://unpkg.com/kaboom@2000.2.10/dist/kaboom.js"></script>
     <script src="game.js"></script>
 </body>
