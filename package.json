@@ -1,0 +1,16 @@
+{
+  "name": "platform-game",
+  "version": "1.0.0",
+  "description": "A simple platform game using Kaboom.js",
+  "main": "game.js",
+  "scripts": {
+    "start": "http-server",
+    "deploy": "gh-pages -d ."
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
+  }
+} 
