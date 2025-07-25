@@ -29,7 +29,6 @@ const player = add([
 const scoreLabel = add([
     text("Score: 0"),
     pos(16, 16),
-    fixed(),
 ])
 
 // Add platforms
@@ -37,34 +36,34 @@ const scoreLabel = add([
 add([
     rect(width(), 48),
     pos(0, height() - 48),
+    color(255, 255, 255),
     area(),
     solid(),
-    color(255, 255, 255),  // White color
 ])
 
 // Floating platforms
 add([
     rect(200, 20),
     pos(300, height() - 300),
+    color(255, 255, 255),
     area(),
     solid(),
-    color(255, 255, 255),  // White color
 ])
 
 add([
     rect(200, 20),
     pos(600, height() - 500),
+    color(255, 255, 255),
     area(),
     solid(),
-    color(255, 255, 255),  // White color
 ])
 
 add([
     rect(200, 20),
     pos(900, height() - 700),
+    color(255, 255, 255),
     area(),
     solid(),
-    color(255, 255, 255),  // White color
 ])
 
 // Add moving platform
@@ -73,7 +72,7 @@ const movingPlatform = add([
     pos(400, height() - 400),
     area(),
     solid(),
-    color(200, 200, 255),  // Light blue color
+    color(200, 200, 255),
     {
         moveRight: true,
         speed: 80,
@@ -86,10 +85,10 @@ function addSpike(x, y) {
     return add([
         rect(20, 20),
         pos(x, y),
-        color(255, 255, 0),  // Yellow color
+        color(255, 255, 0),
         area(),
         "spike",
-        rotate(45),  // Rotate to make it look like a spike
+        rotate(45),
     ])
 }
 
@@ -116,13 +115,13 @@ function addEnemy(x, y) {
     ])
 }
 
-// Add more enemies at different positions
+// Add enemies at different positions
 const enemies = [
     addEnemy(300, height() - 340),
     addEnemy(600, height() - 540),
     addEnemy(900, height() - 740),
-    addEnemy(400, height() - 440),  // New enemy
-    addEnemy(800, height() - 640),  // New enemy
+    addEnemy(400, height() - 440),
+    addEnemy(800, height() - 640),
 ]
 
 // Add bouncing platform
@@ -131,7 +130,7 @@ const bouncePad = add([
     pos(500, height() - 100),
     area(),
     solid(),
-    color(255, 150, 150),  // Pink color
+    color(255, 150, 150),
     "bouncer",
 ])
 
@@ -141,7 +140,7 @@ add([
     pos(1000, height() - 850),
     area(),
     solid(),
-    color(255, 255, 255),  // White color
+    color(255, 255, 255),
 ])
 
 add([
@@ -149,95 +148,8 @@ add([
     pos(700, height() - 900),
     area(),
     solid(),
-    color(255, 255, 255),  // White color
+    color(255, 255, 255),
 ])
-
-// Add mobile controls
-// Left button
-const leftBtn = add([
-    circle(40),
-    pos(80, height() - 100),
-    color(0, 255, 180),
-    opacity(0.5),
-    fixed(),
-    area(),
-    "mobile-control",
-])
-
-// Right button
-const rightBtn = add([
-    circle(40),
-    pos(180, height() - 100),
-    color(0, 255, 180),
-    opacity(0.5),
-    fixed(),
-    area(),
-    "mobile-control",
-])
-
-// Jump button
-const jumpBtn = add([
-    circle(40),
-    pos(width() - 80, height() - 100),
-    color(0, 255, 180),
-    opacity(0.5),
-    fixed(),
-    area(),
-    "mobile-control",
-])
-
-// Add button labels
-add([
-    text("←", { size: 40 }),
-    pos(80, height() - 100),
-    color(0, 0, 0),
-    fixed(),
-    anchor("center"),
-])
-
-add([
-    text("→", { size: 40 }),
-    pos(180, height() - 100),
-    color(0, 0, 0),
-    fixed(),
-    anchor("center"),
-])
-
-add([
-    text("↑", { size: 40 }),
-    pos(width() - 80, height() - 100),
-    color(0, 0, 0),
-    fixed(),
-    anchor("center"),
-])
-
-// Mobile control states
-let isTouchingLeft = false
-let isTouchingRight = false
-
-// Mobile control handlers
-leftBtn.onTouchStart(() => {
-    isTouchingLeft = true
-})
-
-leftBtn.onTouchEnd(() => {
-    isTouchingLeft = false
-})
-
-rightBtn.onTouchStart(() => {
-    isTouchingRight = true
-})
-
-rightBtn.onTouchEnd(() => {
-    isTouchingRight = false
-})
-
-jumpBtn.onClick(() => {
-    if (player.isGrounded() || player.jumpCount < player.maxJumps) {
-        player.jump(JUMP_FORCE)
-        player.jumpCount++
-    }
-})
 
 // Move enemies back and forth
 onUpdate("enemy", (e) => {
@@ -254,11 +166,11 @@ onUpdate("enemy", (e) => {
 onUpdate(() => {
     if (movingPlatform.moveRight) {
         movingPlatform.pos.x += movingPlatform.speed * dt()
-        if (movingPlatform.pos.x > movingPlatform.startX + 300) 
+        if (movingPlatform.pos.x > movingPlatform.startX + 300)
             movingPlatform.moveRight = false
     } else {
         movingPlatform.pos.x -= movingPlatform.speed * dt()
-        if (movingPlatform.pos.x < movingPlatform.startX) 
+        if (movingPlatform.pos.x < movingPlatform.startX)
             movingPlatform.moveRight = true
     }
 })
@@ -274,7 +186,6 @@ keyDown("right", () => {
 
 // Jump control with double jump
 keyPress("space", () => {
-    // Can jump if grounded or have remaining jumps
     if (player.isGrounded() || player.jumpCount < player.maxJumps) {
         player.jump(JUMP_FORCE)
         player.jumpCount++
@@ -291,7 +202,7 @@ player.onGround(() => {
     }
 })
 
-// Handle enemy and spike collision
+// Handle enemy collision
 player.onCollide("enemy", () => {
     player.pos = vec2(120, height() - 88)
     score = 0
@@ -308,27 +219,19 @@ player.onCollide("spike", () => {
 
 // Super jump on bouncer
 player.onCollide("bouncer", () => {
-    player.jump(JUMP_FORCE * 1.5)  // Higher jump from bounce pad
+    player.jump(JUMP_FORCE * 1.5)
 })
 
-// Update player movement to include touch controls
-onUpdate(() => {
-    // Handle touch movement
-    if (isTouchingLeft) {
-        player.move(-SPEED, 0)
-    }
-    if (isTouchingRight) {
-        player.move(SPEED, 0)
-    }
-    
-    // Keep player in bounds
+// Keep player in bounds
+player.onUpdate(() => {
+    // Left and right bounds
     if (player.pos.x < 0) {
         player.pos.x = 0
     }
     if (player.pos.x > width() - 40) {
         player.pos.x = width() - 40
     }
-    
+
     // Reset if player falls off
     if (player.pos.y > height()) {
         player.pos = vec2(120, height() - 88)
